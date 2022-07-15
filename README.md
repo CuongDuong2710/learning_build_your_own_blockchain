@@ -1,5 +1,5 @@
 ## Run test
-$ node dev/test.js
+> $ node dev/test.js
 
 One block has:
 + index (block number)
