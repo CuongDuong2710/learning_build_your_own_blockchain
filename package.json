@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/CuongDuong2710/learning_build_your_own_blockchain/issues"
   },
-  "homepage": "https://github.com/CuongDuong2710/learning_build_your_own_blockchain#readme"
+  "homepage": "https://github.com/CuongDuong2710/learning_build_your_own_blockchain#readme",
+  "dependencies": {
+    "sha256": "^0.2.0",
+    "uuid": "^8.3.2"
+  }
 }
