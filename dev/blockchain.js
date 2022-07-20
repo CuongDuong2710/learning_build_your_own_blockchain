@@ -5,6 +5,9 @@ function Blockchain() {
   // constructor function
   this.chain = []
   this.pendingTransactions = []
+
+  // create Genesic block, not have previous block hash and self hash (do not proof of work)
+  this.createNewBlock(100, '0', '0')
 }
 
 /**
@@ -88,10 +91,29 @@ Blockchain.prototype.hashBlock = function (
 ) {
   const dataAsString =
     previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData)
-  console.log('dataAsString', dataAsString)
+  // console.log('dataAsString', dataAsString)
   const hash = sha256(dataAsString)
-  console.log('hash', hash)
   return hash
+}
+/**
+ * 1. Repeat hash block until it finds correct hash => '0000WRKWER9803KJLJBA'
+ * 2. Use previousBlockHash, currentBlockData and nonce for generate hash
+ * 3. Continue changes nonce until it finds correct hash
+ * 4. Return nonce value that creates the correct hash
+ * @param {*} previousBlockHash 
+ * @param {*} currentBlockData 
+ * @returns 
+ */
+Blockchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData) {
+  let nonce = 0
+  let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
+  while (hash.substring(0,4) !== '0000') {
+    nonce++
+    hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
+  }
+  console.log('hash', hash)
+  console.log('nonce', nonce)
+  return nonce
 }
 
 module.exports = Blockchain

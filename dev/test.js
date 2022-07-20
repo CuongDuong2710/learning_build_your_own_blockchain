@@ -21,7 +21,7 @@ const bitcoin = new Blockchain()
  */
 
 /**
- * ==================== Test hash function =========================
+ * ==================== Test hash function and proofOfWork =========================
  * 
  */
 const previousBlockHash = 'QERAGFARE212379823'
@@ -46,7 +46,9 @@ const currentBlockData = [
 
 const nonce = 100
 
-bitcoin.hashBlock(previousBlockHash, currentBlockData, nonce)
+// bitcoin.hashBlock(previousBlockHash, currentBlockData, nonce)
+// bitcoin.proofOfWork(previousBlockHash, currentBlockData)
+console.log(bitcoin.hashBlock(previousBlockHash, currentBlockData, 89935))
 
 /**
  * ==================== END =========================
@@ -99,7 +101,14 @@ bitcoin.hashBlock(previousBlockHash, currentBlockData, nonce)
   previousBlockHash: 'TYWWYWYWN324'
 } */
 
-// hash function
-/* dataAsString QERAGFARE212379823100[{"amount":10,"sender":"ALEIUOWEKJLZICUOZV23423","recipient":"CUONGKWJ39842093"},{"amount":20,"sender":"PAULUOWEKJLZICUOZV23423","recipient":"NGHIKWJ39842093"},{"amount":32,"sender":"KAKAIUOWEKJLZICUOZV23423","recipient":"TANKWJ39842093"}]
+// hash function and proofOfWork
+/* 
+-- hashBlock --
+dataAsString QERAGFARE212379823100[{"amount":10,"sender":"ALEIUOWEKJLZICUOZV23423","recipient":"CUONGKWJ39842093"},{"amount":20,"sender":"PAULUOWEKJLZICUOZV23423","recipient":"NGHIKWJ39842093"},{"amount":32,"sender":"KAKAIUOWEKJLZICUOZV23423","recipient":"TANKWJ39842093"}]
 
-hash ace372b1b5d82b615e4b3303481801a314c24c43ade2a256893b96bad736191c */
+hash ace372b1b5d82b615e4b3303481801a314c24c43ade2a256893b96bad736191c 
+
+-- Proof of work --
+hash 0000a1341c510cdc585ba6116b626d5055c378532c378ec9f9e80b73b36d9c3e
+nonce 89935
+*/
