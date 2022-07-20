@@ -1,5 +1,7 @@
 ## Run test
-> $ node dev/test.js
+```sh
+ $ node dev/test.js
+```
 
 One block has:
 - index (block number)
@@ -18,3 +20,15 @@ Proof of Work:
  2. Use previousBlockHash, currentBlockData and nonce for generate hash
  3. Continue changes nonce until it finds correct hash
  4. Return nonce value that creates the correct hash
+
+## Install Express
+
+```sh
+npm i express
+```
+## Run test
+```sh
+ $ node dev/api.js
+
+ http://localhost:3000/
+```
