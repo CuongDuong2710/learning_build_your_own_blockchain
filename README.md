@@ -1,3 +1,4 @@
+# Section 1: Building a Blockchain
 ## Run test
 ```sh
  $ node dev/test.js
@@ -21,6 +22,9 @@ Proof of Work:
  3. Continue changes nonce until it finds correct hash
  4. Return nonce value that creates the correct hash
 
+---
+
+# Section 2: Accessing the Blockchain through an API
 ## Install Express
 
 ```sh
@@ -31,4 +35,21 @@ npm i express
  $ node dev/api.js
 
  http://localhost:3000/
+```
+
+## Install Nodemon
+> nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
+```sh
+npm i express
+```
+
+> "start": "nodemon --watch dev -e js dev/api.js"
+
+- **watch** any file changes in ***dev*** folder
+- **e** keep an eyes file is javascript (.js) 
+- automatically restarting ***dev/api.js*** file
+
+```sh
+npm start
 ```

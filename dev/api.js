@@ -5,7 +5,7 @@ app.get('/blockchain', (req, res) => {
 })
 
 app.post('/transaction', (req, res) => {
-
+  res.send('It works!!!')
 })
 
 app.get('/mine', (req, res) => {
