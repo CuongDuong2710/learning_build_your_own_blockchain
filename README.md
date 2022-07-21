@@ -61,3 +61,23 @@ npm start
 ```sh
 npm i body-parser
 ```
+
+APIs
+
+1. **GET/ blockchain**: get entire blockchain
+2. **POST/ transaction**: receive new transaction information and add to pendingTransactions array
+3. **GET/ mine**: mining a new block
+
+Test
+
+1. Run web to mine new block: http://localhost:3000/mine
+2. Run http://localhost:3000/blockchain to check add new block into blockchain
+3. Run postman **POST/ transaction** add some new pending transasction
+4. Run /blockchain to see new pending transaction
+5. Run mine to see new pending transaction is pushed into new block
+
+Summary
+
+1. Create some new transaction -> add into pending transaction
+2. Mine new block -> some pending transaction will be pushed into new block
+3. Check entire blockchain -> new block will be pushed into chain and pendingTransaction array is empty
