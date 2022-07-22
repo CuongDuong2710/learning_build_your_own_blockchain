@@ -112,3 +112,7 @@ Run in multi cmd windows
 Create new pending transaction at Postman in node 1 (http://localhost:3001/transaction), node 3 (http://localhost:3003/transaction)
 
 > These transactions is in private node, must decentralized by every node aware all transaction of all node
+
+## Register and broadcast node
+
+![Register and broadcast node](./assets/images/register_and_broadcast_node.jpg "Register and broadcast node")
