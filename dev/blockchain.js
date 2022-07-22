@@ -1,10 +1,14 @@
 const uuid = require('uuid');
 const sha256 = require('sha256')
+const currentNodeUrl = process.argv[3];
 
 function Blockchain() {
   // constructor function
   this.chain = []
   this.pendingTransactions = []
+
+  this.currentNodeUrl = currentNodeUrl
+  this.networkNodes = []
 
   // create Genesic block, not have previous block hash and self hash (do not proof of work)
   this.createNewBlock(100, '0', '0')

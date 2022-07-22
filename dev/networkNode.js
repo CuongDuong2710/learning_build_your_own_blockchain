@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const Blockchain = require('./blockchain')
 const { v4: uuidv4 } = require('uuid');
+// "start": "nodemon --watch dev -e js dev/api.js 3001"
+const port = process.argv[2] // argument at index 2 is '3001'
 
 const nodeAddress = uuidv4().split('-').join('')
 
@@ -74,6 +76,6 @@ app.get('/mine', (req, res) => {
   })
 })
 
-app.listen(3000, () => {
-  console.log('Listening on port 3000...')
+app.listen(port, () => {
+  console.log(`Listening on port ${port}...`)
 })

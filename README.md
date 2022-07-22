@@ -81,3 +81,34 @@ Summary
 1. Create some new transaction -> add into pending transaction
 2. Mine new block -> some pending transaction will be pushed into new block
 3. Check entire blockchain -> new block will be pushed into chain and pendingTransaction array is empty
+
+---
+
+# Section 3: Create a Decentralized Blockchain network
+
+## change scripts run in package.json
+
+```sh
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node_1": "nodemon --watch dev -e js dev/networkNode.js 3001 http://localhost:3001/transaction",
+    "node_2": "nodemon --watch dev -e js dev/networkNode.js 3002 http://localhost:3002/transaction",
+    "node_3": "nodemon --watch dev -e js dev/networkNode.js 3003 http://localhost:3003/transaction",
+    "node_4": "nodemon --watch dev -e js dev/networkNode.js 3004 http://localhost:3004/transaction",
+    "node_5": "nodemon --watch dev -e js dev/networkNode.js 3005 http://localhost:3005/transaction"
+  },
+```
+
+Get argument port in javascript at index 2
+
+> const port = process.argv[2]
+
+Run in multi cmd windows
+
+> npm run node_1
+
+> npm run node_2
+
+Create new pending transaction at Postman in node 1 (http://localhost:3001/transaction), node 3 (http://localhost:3003/transaction)
+
+> These transactions is in private node, must decentralized by every node aware all transaction of all node
