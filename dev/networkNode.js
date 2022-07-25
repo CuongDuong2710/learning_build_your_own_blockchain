@@ -75,42 +75,54 @@ app.get('/mine', (req, res) => {
   })
 })
 
-// register a node and broadcast it the network
+// Step 1. register a node and broadcast it the network
 app.post('/register-and-broadcast-node', (req, res) => {
   const newNodeUrl = req.body.newNodeUrl
 
   // check if new node in network nodes
   if (bitcoin.networkNodes.indexOf(newNodeUrl) == -1)
     bitcoin.networkNodes.push(newNodeUrl)
-  
+
   // array of promise
   const regNodePromises = []
 
-  bitcoin.networkNodes.forEach(networkNodeUrl => {
-    // register to every node option
+  bitcoin.networkNodes.forEach((networkNodeUrl) => {
+    // Step 2. register new node with all nodes in network
     const requestOptions = {
       uri: networkNodeUrl + '/register-node',
       method: 'POST',
       body: { newNodeUrl },
-      json: true
+      json: true,
     }
 
     // push each request promise into array
     regNodePromises.push(rp(requestOptions))
   })
 
-  // handle register new node with all nodes in network, then return data
+  // handle request then return data
   Promise.all(regNodePromises)
-  .then(data => {
-    // using data
-  })
+    .then((data) => {
+      // Step 3. then register node bulk
+      const bulkRegisterOptions = {
+        uri: newNodeUrl + '/register-nodes-bulk',
+        method: 'POST',
+        body: {
+          allNetworkNodes: [...bitcoin.networkNodes, bitcoin.currentNodeUrl],
+        },
+        json: true,
+      }
+      return rp(bulkRegisterOptions)
+    })
+    .then((data) => {
+      res.json({ note: 'New node registered with network successfully.' })
+    })
 })
 
 // register a node with the network
 app.post('/register-node', (req, res) => {})
 
 // register multiple node at once
-app.post('/register-and-bulk', (req, res) => {})
+app.post('/register-nodes-bulk', (req, res) => {})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
