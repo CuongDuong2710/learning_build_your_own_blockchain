@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const Blockchain = require('./blockchain')
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 // "start": "nodemon --watch dev -e js dev/api.js 3001"
 const port = process.argv[2] // argument at index 2 is '3001'
 
@@ -44,7 +44,6 @@ app.post('/transaction', (req, res) => {
   res.json({ note: `Transaction will be added in block ${blockIndex}` })
 })
 
-
 // mine a block
 app.get('/mine', (req, res) => {
   const lastBlock = bitcoin.getLastBlock()
@@ -65,7 +64,7 @@ app.get('/mine', (req, res) => {
   )
 
   // mining reward
-  bitcoin.createNewTransaction(12.5, "0", nodeAddress)
+  bitcoin.createNewTransaction(12.5, '0', nodeAddress)
 
   // create new block
   const newBlock = bitcoin.createNewBlock(nonce, previousBlockHash, blockHash)
@@ -78,18 +77,40 @@ app.get('/mine', (req, res) => {
 
 // register a node and broadcast it the network
 app.post('/register-and-broadcast-node', (req, res) => {
+  const newNodeUrl = req.body.newNodeUrl
 
+  // check if new node in network nodes
+  if (bitcoin.networkNodes.indexOf(newNodeUrl) == -1)
+    bitcoin.networkNodes.push(newNodeUrl)
+  
+  // array of promise
+  const regNodePromises = []
+
+  bitcoin.networkNodes.forEach(networkNodeUrl => {
+    // register to every node option
+    const requestOptions = {
+      uri: networkNodeUrl + '/register-node',
+      method: 'POST',
+      body: { newNodeUrl },
+      json: true
+    }
+
+    // push each request promise into array
+    regNodePromises.push(rp(requestOptions))
+  })
+
+  // handle register new node with all nodes in network, then return data
+  Promise.all(regNodePromises)
+  .then(data => {
+    // using data
+  })
 })
 
 // register a node with the network
-app.post('/register-node', (req, res) => {
-  
-})
+app.post('/register-node', (req, res) => {})
 
 // register multiple node at once
-app.post('/register-and-bulk', (req, res) => {
-  
-})
+app.post('/register-and-bulk', (req, res) => {})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
