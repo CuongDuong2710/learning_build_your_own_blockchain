@@ -116,3 +116,10 @@ Create new pending transaction at Postman in node 1 (http://localhost:3001/trans
 ## Register and broadcast node
 
 ![Register and broadcast node](./assets/images/register_and_broadcast_node.jpg "Register and broadcast node")
+
+## Install request
+> The simplified HTTP request client 'request' with Promise support. Powered by Bluebird.
+
+```sh
+npm install request --save
+```
