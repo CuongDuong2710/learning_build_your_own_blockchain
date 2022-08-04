@@ -123,3 +123,15 @@ Create new pending transaction at Postman in node 1 (http://localhost:3001/trans
 ```sh
 npm install request --save
 ```
+
+## Summary
+
+Existing node: `Node 1`, `Node 2`
+
+New Node: `Node 3`
+
+1. `Node 1` calls `register-and-broadcast-node` for new `Node 3` (`Node 1` has awared about new `Node 3`)
+2. `Node 2` calls `register-node` for awaring about new `Node 3`
+3. After all, `Node 3` calls `register-nodes-bulk` for awaring all existing nodes in network
+
+> All request options is built in `Node 1`
