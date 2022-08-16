@@ -1,4 +1,4 @@
-# Section 1: Building a Blockchain
+# Section 2: Building a Blockchain
 ## Run test
 ```sh
  $ node dev/test.js
@@ -24,7 +24,7 @@ Proof of Work:
 
 ---
 
-# Section 2: Accessing the Blockchain through an API
+# Section 3: Accessing the Blockchain through an API
 ## Install Express
 
 ```sh
@@ -84,7 +84,7 @@ Summary
 
 ---
 
-# Section 3: Create a Decentralized Blockchain network
+# Section 4: Create a Decentralized Blockchain network
 
 ## change scripts run in package.json
 
@@ -126,12 +126,27 @@ npm install request --save
 
 ## Summary
 
-Existing node: `Node 1`, `Node 2`
+Existing node: `Node 1`, `Node 2`, `Node 4`
 
 New Node: `Node 3`
 
 1. `Node 1` calls `register-and-broadcast-node` for new `Node 3` (`Node 1` has awared about new `Node 3`)
-2. `Node 2` calls `register-node` for awaring about new `Node 3`
+2. `Node 2` and `Node 4` calls `register-node` for awaring about new `Node 3`
 3. After all, `Node 3` calls `register-nodes-bulk` for awaring all existing nodes in network
 
-> All request options is built in `Node 1`
+> All request options and uri is built in `Node 1`
+
+---
+
+# Section 5: Synchronizing the Network
+
+All existing nodes need to aware new pending transaction and new mine block
+
+![Transaction broadcast](./assets/images/section5_transaction_broadcast.jpg "Transaction broadcast")
+
+ - Aware new pending transaction
+
+ 1. Current node add new transaction into pending transaction array
+ 2. Then current node will broadcast new transaction to all existing nodes in network
+ 3. All existing nodes will call `/transaction` POST to add new transation into pending transaction array
+ 4. All nodes have same new pending transaction datas.

@@ -38,12 +38,42 @@ app.get('/blockchain', (req, res) => {
 })
  */
 
+/* --- TRANSACTION (Synchronizing the network) --- */
+
 // create new transaction
 app.post('/transaction', (req, res) => {
   const newTransaction = req.body
+  console.log('/transaction >> newTransaction: ', newTransaction)
   const blockIndex = bitcoin.addTransactionToPendingTransactions(newTransaction)
   res.json({ note: `Transaction will be added in block ${blockIndex}` })
 })
+
+// broadcast transaction
+app.post('/transaction/broadcast', (req, res) => {
+  const { amount, sender, recipient } = req.body
+  const newTransaction = bitcoin.createNewTransaction(amount, sender, recipient)
+  // Step 1 - add pending transaction to current node
+  bitcoin.addTransactionToPendingTransactions(newTransaction)
+
+  // Step 2 - broadcast all existing node to add pending transaction
+  const requestPromises = []
+  bitcoin.networkNodes.forEach((networkNodeUrl) => {
+    const requestOptions = {
+      uri: networkNodeUrl + '/transaction',
+      method: 'POST',
+      body: newTransaction,
+      json: true,
+    }
+    console.log('/transaction/broadcast >>> requestOptions: ', requestOptions)
+    requestPromises.push(rp(requestOptions))
+  })
+
+  Promise.all(requestPromises).then((data) => {
+    res.json({ note: 'Transaction created and broadcast successfully.' })
+  })
+})
+
+/* --- MINING NEW BLOCK (Synchronizing the network) --- */
 
 // mine a block
 app.get('/mine', (req, res) => {
@@ -76,6 +106,8 @@ app.get('/mine', (req, res) => {
   })
 })
 
+/* --- REGISTER NEW NODE (Creating a decentralized Blockchain) --- */
+
 // Step 1. register a node and broadcast it the network
 app.post('/register-and-broadcast-node', (req, res) => {
   const newNodeUrl = req.body.newNodeUrl
@@ -96,7 +128,7 @@ app.post('/register-and-broadcast-node', (req, res) => {
   // all nodes aware about new node
   bitcoin.networkNodes.forEach((networkNodeUrl) => {
     const requestOptions = {
-      uri: networkNodeUrl + '/register-node',
+      uri: networkNodeUrl + '/register-node', // delegate every existing node call register-node
       method: 'POST',
       body: { newNodeUrl },
       json: true,
@@ -113,7 +145,7 @@ app.post('/register-and-broadcast-node', (req, res) => {
       // Step 3. then register node bulk
       // new node awares about all exist nodes
       const bulkRegisterOptions = {
-        uri: newNodeUrl + '/register-nodes-bulk',
+        uri: newNodeUrl + '/register-nodes-bulk', // delegate new node call register-nodes-bulk
         method: 'POST',
         body: {
           allNetworkNodes: [...bitcoin.networkNodes, bitcoin.currentNodeUrl],
@@ -159,6 +191,8 @@ app.post('/register-nodes-bulk', (req, res) => {
   res.json({ note: 'Bulk registration successful.' })
   console.log('Bulk registration successful.')
 })
+
+/* --- REGISTER NEW NODE (Creating a decentralized Blockchain) --- */
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
