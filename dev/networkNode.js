@@ -77,6 +77,8 @@ app.post('/transaction/broadcast', (req, res) => {
 
 // mine a block
 app.get('/mine', (req, res) => {
+  // Step 1. Node will create new Block via proof of work
+
   const lastBlock = bitcoin.getLastBlock()
   const previousBlockHash = lastBlock['hash']
   const currentBlockData = {
@@ -100,7 +102,7 @@ app.get('/mine', (req, res) => {
   // create new block
   const newBlock = bitcoin.createNewBlock(nonce, previousBlockHash, blockHash)
 
-  // request to all network nodes for receiving new block
+  // Step 2. request to all network nodes for receiving new block
   const requestPromises = []
   bitcoin.networkNodes.forEach((networkNodeUrl) => {
     const requestOptions = {
@@ -113,7 +115,7 @@ app.get('/mine', (req, res) => {
     requestPromises.push(rp(requestOptions))
   })
 
-  // broadcast to all network nodes about mining reward to nodeAddress
+  // Step 4. Node winner broadcasts to all network nodes about mining reward to nodeAddress
   Promise.all(requestPromises)
     .then((data) => {
       const requestOptions = {
@@ -139,6 +141,7 @@ app.get('/mine', (req, res) => {
 
 // receive new block
 app.post('/receive-new-block', (req, res) => {
+  // Step 3. All existing nodes will call `/receive-new-block` to push new block into `this.chain`
   const newBlock = req.body.newBlock
   const lastBlock = bitcoin.getLastBlock()
 
@@ -148,7 +151,7 @@ app.post('/receive-new-block', (req, res) => {
 
   if (correctHash && correctIndex) {
     // if true, chain add new block
-    bitcoin.chain.push(newBlock)
+    bitcoin.chain.push(newBlock) // bitcoin is current node calls api
     bitcoin.pendingTransactions = []
     res.json({
       note: 'New block received and accepted.',

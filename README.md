@@ -150,3 +150,12 @@ All existing nodes need to aware new pending transaction and new mine block
  2. Then current node will broadcast new transaction to all existing nodes in network
  3. All existing nodes will call `/transaction` POST to add new transation into pending transaction array
  4. All nodes have same new pending transaction datas.
+
+ - Aware new block is mined
+
+ 1. Node will create new block if it finds correct hash (proof of Work)
+ 2. Then node will request to all network nodes for receiving new block
+ 3. All existing nodes will call `/receive-new-block` to push new block into `this.chain`
+ 4. Then node winner will call `/transaction/broadcast` to broadcast for all network nodes about mining reward to nodeAddress
+
+
