@@ -96,9 +96,6 @@ app.get('/mine', (req, res) => {
     nonce
   )
 
-  // mining reward
-  // bitcoin.createNewTransaction(12.5, '0', nodeAddress)
-
   // create new block
   const newBlock = bitcoin.createNewBlock(nonce, previousBlockHash, blockHash)
 
@@ -111,11 +108,11 @@ app.get('/mine', (req, res) => {
       body: { newBlock },
       json: true,
     }
-    console.log(`Receive new block - requestOptions: ${requestOptions}`)
+    console.log(`Receive new block - requestOptions: ${JSON.stringify(requestOptions)}`)
     requestPromises.push(rp(requestOptions))
   })
 
-  // Step 4. Node winner broadcasts to all network nodes about mining reward to nodeAddress
+  // Step 4. Node winner broadcasts to all network nodes about mining reward to current node address
   Promise.all(requestPromises)
     .then((data) => {
       const requestOptions = {
@@ -128,7 +125,7 @@ app.get('/mine', (req, res) => {
         },
         json: true,
       }
-      console.log(`Mining reward - requestOptions: ${requestOptions}`)
+      console.log(`Mining reward - requestOptions: ${JSON.stringify(requestOptions)}`)
       return rp(requestOptions)
     })
     .then((data) => {
@@ -145,7 +142,7 @@ app.post('/receive-new-block', (req, res) => {
   const newBlock = req.body.newBlock
   const lastBlock = bitcoin.getLastBlock()
 
-  //  compare hash and index
+  //  compare hash and index, new block comes right after the last block in our chain
   const correctHash = lastBlock.hash === newBlock.previousBlockHash
   const correctIndex = lastBlock['index'] + 1 === newBlock['index']
 
