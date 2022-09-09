@@ -182,3 +182,4 @@ It will simply compare the chain on the chosen node with all the other chains in
 
 The longest chain `has the most blocks` in it and `each of those blocks was mined by using a proof of work`.
 
+![Consensus!](./assets/images/section6_consensus.jpg "Consensus")
