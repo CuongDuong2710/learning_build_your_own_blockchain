@@ -160,4 +160,25 @@ All existing nodes need to aware new pending transaction and new mine block
  But this transaction is into pending transaction array (memory pool)
  5. This transaction will be added `transactions` array into new another block
 
+ # Section 6: Consensus
+
+`Consensus` is a way for all of the nodes inside of our network to agree upon what the correct data inside of the blockchain is.
+
+So, for example, in the real world, when a block chain is totally built out, it is running across hundreds or thousands of nodes and every transaction and every block that's being created, `it's all broadcast to the entire block chain network`.
+
+And there's a possibility that during these broadcasts, a hiccup could occur and maybe a `certain node doesn't receive a piece of information` or a transaction that took place.
+
+Or even maybe there is `a bad actor inside of the block chain network` who is `sending out false information` or `creating fraudulent transactions` on their copy of the block chain and trying to broadcast them to the whole network and convince everybody that they are legitimate transactions.
+
+> So how do we solve for this problem?
+
+Our consensus algorithm will provide us with a way to `compare one node to all the other nodes inside of the network` to confirm that we have the correct data on the specific node.
+
+We are going to create a consensus algorithm that implements `the longest chain rule`.
+
+> So what is this longest chain rule?
+
+It will simply compare the chain on the chosen node with all the other chains inside of our network, and `if one of the other chains has a longer length than the current node that we're o`n, then we are simply going to `replace the chain of the node we are on with the longest chain in the network`.
+
+The longest chain `has the most blocks` in it and `each of those blocks was mined by using a proof of work`.
 
