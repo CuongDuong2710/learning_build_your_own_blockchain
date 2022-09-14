@@ -105,9 +105,15 @@ Get argument port in javascript at index 2
 
 Run in multi cmd windows
 
-> npm run node_1
+```sh
+npm run node_1
 
-> npm run node_2
+npm run node_2
+
+npm run node_3
+
+...
+```
 
 Create new pending transaction at Postman in node 1 (http://localhost:3001/transaction), node 3 (http://localhost:3003/transaction)
 
