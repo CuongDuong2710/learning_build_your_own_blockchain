@@ -119,14 +119,14 @@ Blockchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData)
   return nonce
 }
 
-Blockchain.prototype.chainIsValid = (blockchain) => {
+Blockchain.prototype.chainIsValid = function(blockchain)  {
   let validChain = true
-  
-  const currentBlockData = { transactions: currentBlock['transactions'], index: currentBlock['index'] }
 
   for(var i = 1; i < blockchain.length; i++) {
     const currentBlock = blockchain[i]
     const prevBlock = blockchain[i - 1]
+    const currentBlockData = { transactions: currentBlock['transactions'], index: currentBlock['index'] }
+
     const blockHash = this.hashBlock(prevBlock['hash'], currentBlockData, currentBlock['nonce'])
 
     if (blockHash.substring(0, 4) !== '0000') validChain = false

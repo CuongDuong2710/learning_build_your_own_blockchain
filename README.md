@@ -178,8 +178,26 @@ We are going to create a consensus algorithm that implements `the longest chain 
 
 > So what is this longest chain rule?
 
-It will simply compare the chain on the chosen node with all the other chains inside of our network, and `if one of the other chains has a longer length than the current node that we're o`n, then we are simply going to `replace the chain of the node we are on with the longest chain in the network`.
+It will simply compare the chain on the chosen node with all the other chains inside of our network, and `if one of the other chains has a longer length than the current node that we're on`, then we are simply going to `replace the chain of the node we are on with the longest chain in the network`.
 
 The longest chain `has the most blocks` in it and `each of those blocks was mined by using a proof of work`.
 
 ![Consensus!](./assets/images/section6_consensus.jpg "Consensus")
+
+> Check chain is valid
+
+1. Check each block has `hash` begin with `0000`
+2. Check `previousBlockHash` in current block is equal with `hash of previous block`
+3. Check data of `genesic block` is correct
+
+> Test
+
+1. Create test data (some block, some transactions)
+2. Paste test data in dev/test.js
+3. Run `node dev/test.js`
+4. Attemp change data of `hash`, `address of recipient`, `genesic block`
+5. Run test again `node dev/test.js`
+
+![Consensus!](./assets/images/section6_consensus_2.jpg "Consensus")
+
+
