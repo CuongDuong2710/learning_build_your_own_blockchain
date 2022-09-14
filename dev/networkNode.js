@@ -108,7 +108,9 @@ app.get('/mine', (req, res) => {
       body: { newBlock },
       json: true,
     }
-    console.log(`Receive new block - requestOptions: ${JSON.stringify(requestOptions)}`)
+    console.log(
+      `Receive new block - requestOptions: ${JSON.stringify(requestOptions)}`
+    )
     requestPromises.push(rp(requestOptions))
   })
 
@@ -125,7 +127,9 @@ app.get('/mine', (req, res) => {
         },
         json: true,
       }
-      console.log(`Mining reward - requestOptions: ${JSON.stringify(requestOptions)}`)
+      console.log(
+        `Mining reward - requestOptions: ${JSON.stringify(requestOptions)}`
+      )
       return rp(requestOptions)
     })
     .then((data) => {
@@ -249,6 +253,58 @@ app.post('/register-nodes-bulk', (req, res) => {
 })
 
 /* --- REGISTER NEW NODE (Creating a decentralized Blockchain) --- */
+
+/* --- SECTION 6 - Consensus --- */
+
+app.get('/consensus', (req, res) => {
+  const requestPromises = []
+
+  // Step 1. Make request to get all chains of all nodes
+  bitcoin.networkNodes.forEach((networkNodeUrl) => {
+    const requestOptions = {
+      uri: networkNodeUrl + '/blockchain',
+      method: 'GET',
+      json: true,
+    }
+    requestPromises.push(rp(requestOptions))
+  })
+
+  Promise.all(requestPromises).then((blockchains) => {
+    const currentChainLength = bitcoin.chain.length
+    let maxChainLength = currentChainLength
+    let newLongestChain = null
+    let newPendingTransactions = null
+
+    blockchains.forEach((blockchain) => {
+      // Step 2. Compare current node to all the other nodes
+      if (blockchain.chain.length > maxChainLength) {
+        maxChainLength = blockchain.chain.length
+        newLongestChain = blockchain.chain
+        newPendingTransactions = blockchain.pendingTransactions
+      }
+    })
+
+    // Step 3. Check newLongestChain is valid
+    if (
+      !newLongestChain ||
+      (newLongestChain && !bitcoin.chainIsValid(newLongestChain))
+    ) {
+      // If newLongestChain is not valid, not replace
+      res.json({
+        note: 'Current chain has not been replaced.',
+        chain: bitcoin.chain,
+      })
+    } else {
+      // else if newLongestChain is valid, replace the chain of current node with the longest chain
+      bitcoin.chain = newLongestChain
+      bitcoin.pendingTransactions = newPendingTransactions
+      res.json({
+        note: 'This chain has been replaced.',
+        chain: bitcoin.chain,
+      })
+    }
+  })
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
