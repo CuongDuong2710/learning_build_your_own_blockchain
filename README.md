@@ -206,4 +206,14 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 
 ![Consensus!](./assets/images/section6_consensus_2.jpg "Consensus")
 
+> Check consensus
+
+1. Node 1, 2, 3, 4 are awaring in `networkNodes`
+2. Mine some block and create some transactions
+3. Synchonize all datas in network
+4. Register and broadcast Node 5 in network
+5. Run `/consensus` to update blockchain in Node 5
+
+![Consensus!](./assets/images/section6_consensus_3.jpg "Consensus")
+
 
