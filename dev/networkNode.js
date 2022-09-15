@@ -306,6 +306,36 @@ app.get('/consensus', (req, res) => {
   })
 })
 
+/* --- SECTION 7 - Block explorer --- */
+
+// get block by blockHash
+app.get('/block/:blockHash', (req, res) => {
+  const blockHash = req.params.blockHash
+  const correctBlock = bitcoin.getBlock(blockHash)
+  res.json({
+    block: correctBlock
+  })
+})
+
+// get transaction by transactionId
+app.get('/transaction/:transactionId', (req, res) => {
+  const transactionId = req.params.transactionId
+  const transactionData = bitcoin.getTransaction(transactionId)
+  res.json({
+    transaction: transactionData.transaction,
+    block: transactionData.block
+  })
+})
+
+// get address's data by address
+app.get('/address/:address', (req, res) => {
+  const address = req.params.address
+  const addressData = bitcoin.getAddressData(address)
+  res.json({
+    addressData
+  })
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
 })
