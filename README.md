@@ -251,3 +251,27 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 ![Block explorer!](./assets/images/section7_block_explorer_5.png 'Block explorer')
 
 ![Block explorer!](./assets/images/section7_block_explorer_6.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_7.png 'Block explorer')
+
+> Front End
+
+- Get block
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_2.png 'Block explorer')
+
+- Get transactions
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_3.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_4.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_5.png 'Block explorer')
+
+- Get address's data
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_6.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_frontend_7.png 'Block explorer')

@@ -336,6 +336,10 @@ app.get('/address/:address', (req, res) => {
   })
 })
 
+app.get('/block-explorer', (req, res) => {
+  res.sendFile('./block-explorer/index.html', { root: __dirname }) // root: root directory for relative filename
+})
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`)
 })
