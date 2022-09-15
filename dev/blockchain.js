@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 const sha256 = require('sha256')
-const currentNodeUrl = process.argv[3];
+const currentNodeUrl = process.argv[3]
 
 function Blockchain() {
   // constructor function
@@ -81,11 +81,11 @@ Blockchain.prototype.addTransactionToPendingTransactions = function (
   return this.getLastBlock()['index'] + 1 // number of block
 }
 /**
- * 
- * @param {*} previousBlockHash 
- * @param {*} currentBlockData 
- * @param {*} nonce 
- * @returns 
+ *
+ * @param {*} previousBlockHash
+ * @param {*} currentBlockData
+ * @param {*} nonce
+ * @returns
  */
 Blockchain.prototype.hashBlock = function (
   previousBlockHash,
@@ -103,14 +103,17 @@ Blockchain.prototype.hashBlock = function (
  * 2. Use previousBlockHash, currentBlockData and nonce for generate hash
  * 3. Continue changes nonce until it finds correct hash
  * 4. Return nonce value that creates the correct hash
- * @param {*} previousBlockHash 
- * @param {*} currentBlockData 
- * @returns 
+ * @param {*} previousBlockHash
+ * @param {*} currentBlockData
+ * @returns
  */
-Blockchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData) {
+Blockchain.prototype.proofOfWork = function (
+  previousBlockHash,
+  currentBlockData
+) {
   let nonce = 0
   let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
-  while (hash.substring(0,4) !== '0000') {
+  while (hash.substring(0, 4) !== '0000') {
     nonce++
     hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
   }
@@ -119,18 +122,28 @@ Blockchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData)
   return nonce
 }
 
-Blockchain.prototype.chainIsValid = function(blockchain)  {
+/* --- SECTION 6 - Consensus --- */
+
+Blockchain.prototype.chainIsValid = function (blockchain) {
   let validChain = true
 
-  for(var i = 1; i < blockchain.length; i++) {
+  for (var i = 1; i < blockchain.length; i++) {
     const currentBlock = blockchain[i]
     const prevBlock = blockchain[i - 1]
-    const currentBlockData = { transactions: currentBlock['transactions'], index: currentBlock['index'] }
+    const currentBlockData = {
+      transactions: currentBlock['transactions'],
+      index: currentBlock['index'],
+    }
 
-    const blockHash = this.hashBlock(prevBlock['hash'], currentBlockData, currentBlock['nonce'])
+    const blockHash = this.hashBlock(
+      prevBlock['hash'],
+      currentBlockData,
+      currentBlock['nonce']
+    )
 
     if (blockHash.substring(0, 4) !== '0000') validChain = false
-    if (currentBlock['previousBlockHash'] !== prevBlock['hash']) validChain = false
+    if (currentBlock['previousBlockHash'] !== prevBlock['hash'])
+      validChain = false
   }
 
   const genesicBlock = blockchain[0]
@@ -139,9 +152,72 @@ Blockchain.prototype.chainIsValid = function(blockchain)  {
   const correctHash = genesicBlock['hash'] === '0'
   const correctTransactions = genesicBlock['transactions'].length === 0
 
-  if (!correctNonce || !correctPreviousBlockHash || !correctHash || !correctTransactions) validChain = false
+  if (
+    !correctNonce ||
+    !correctPreviousBlockHash ||
+    !correctHash ||
+    !correctTransactions
+  )
+    validChain = false
 
   return validChain
 }
+
+/* --- SECTION 7 - Block explorer --- */
+
+Blockchain.prototype.getBlock = (blockHash) => {
+  let correctBlock = null
+
+  this.chain.forEach((block) => {
+    if (block['hash'] === blockHash) {
+      correctBlock = block
+    }
+  })
+
+  return correctBlock
+}
+
+Blockchain.prototype.getTransaction = (transactionId) => {
+  let correctTransaction = null
+  let correctBlock = null
+
+  this.chain.forEach((block) => {
+    block.transactions.forEach((transaction) => {
+      if (transaction.transactionId === transactionId) {
+        correctTransaction = transaction
+        correctBlock = block
+      }
+    })
+  })
+
+  return { transaction: correctTransaction, block: correctBlock }
+}
+
+Blockchain.prototype.getAddressData = (address) => {
+  const addressTransactions = []
+  let balance = 0
+
+  this.chain.forEach(block => {
+    block.transactions.forEach(transaction => {
+      if (transaction.sender === address || transaction.recipient === address) {
+        addressTransactions.push(transaction)
+      }
+    })
+  })
+
+  addressTransactions.forEach(transaction => {
+    if (transaction.recipient === address) {
+      balance += transaction.amount
+    } else if (transaction.sender === address) {
+      balance -= transaction.amount
+    }
+  })
+
+  return {
+    addressTransactions,
+    balance
+  }
+}
+
 
 module.exports = Blockchain

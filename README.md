@@ -213,6 +213,7 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 3. Synchonize all datas in network
 4. Register and broadcast Node 5 in network
 5. Run `/consensus` to update blockchain in Node 5
+6. Run `/consensus` again, this chain of Node 5 has not been replaced
 
 ![Consensus!](./assets/images/section6_consensus_3.jpg "Consensus")
 
