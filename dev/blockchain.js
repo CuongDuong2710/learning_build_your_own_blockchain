@@ -165,7 +165,7 @@ Blockchain.prototype.chainIsValid = function (blockchain) {
 
 /* --- SECTION 7 - Block explorer --- */
 
-Blockchain.prototype.getBlock = (blockHash) => {
+Blockchain.prototype.getBlock = function (blockHash) {
   let correctBlock = null
 
   this.chain.forEach((block) => {
@@ -177,7 +177,7 @@ Blockchain.prototype.getBlock = (blockHash) => {
   return correctBlock
 }
 
-Blockchain.prototype.getTransaction = (transactionId) => {
+Blockchain.prototype.getTransaction = function (transactionId) {
   let correctTransaction = null
   let correctBlock = null
 
@@ -193,7 +193,7 @@ Blockchain.prototype.getTransaction = (transactionId) => {
   return { transaction: correctTransaction, block: correctBlock }
 }
 
-Blockchain.prototype.getAddressData = (address) => {
+Blockchain.prototype.getAddressData = function (address) {
   const addressTransactions = []
   let balance = 0
 

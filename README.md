@@ -1,10 +1,13 @@
 # Section 2: Building a Blockchain
+
 ## Run test
+
 ```sh
  $ node dev/test.js
 ```
 
 One block has:
+
 - index (block number)
 - timestamp
 - pending transactions (wait for verify). It will be pushed into next new block
@@ -17,20 +20,24 @@ Genesic block does not have hash and previous block's hash
 Using sha256 to generate block's hash
 
 Proof of Work:
- 1. Repeat hash block until it finds correct hash => '0000WRKWER9803KJLJBA'
- 2. Use previousBlockHash, currentBlockData and nonce for generate hash
- 3. Continue changes nonce until it finds correct hash
- 4. Return nonce value that creates the correct hash
+
+1.  Repeat hash block until it finds correct hash => '0000WRKWER9803KJLJBA'
+2.  Use previousBlockHash, currentBlockData and nonce for generate hash
+3.  Continue changes nonce until it finds correct hash
+4.  Return nonce value that creates the correct hash
 
 ---
 
 # Section 3: Accessing the Blockchain through an API
+
 ## Install Express
 
 ```sh
 npm i express
 ```
+
 ## Run test
+
 ```sh
  $ node dev/api.js
 
@@ -38,6 +45,7 @@ npm i express
 ```
 
 ## Install Nodemon
+
 > nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 
 ```sh
@@ -46,17 +54,19 @@ npm i express
 
 > "start": "nodemon --watch dev -e js dev/api.js"
 
-- **watch** any file changes in ***dev*** folder
-- **e** keep an eyes file is javascript (.js) 
-- automatically restarting ***dev/api.js*** file
+- **watch** any file changes in **_dev_** folder
+- **e** keep an eyes file is javascript (.js)
+- automatically restarting **_dev/api.js_** file
 
 ```sh
 npm start
 ```
+
 ## Install body-parser
+
 > Node.js body parsing middleware.
 
-> Parse incoming request bodies in a middleware before your handlers, available under the ***req.body*** property.
+> Parse incoming request bodies in a middleware before your handlers, available under the **_req.body_** property.
 
 ```sh
 npm i body-parser
@@ -121,9 +131,10 @@ Create new pending transaction at Postman in node 1 (http://localhost:3001/trans
 
 ## Register and broadcast node
 
-![Register and broadcast node](./assets/images/register_and_broadcast_node.jpg "Register and broadcast node")
+![Register and broadcast node](./assets/images/register_and_broadcast_node.jpg 'Register and broadcast node')
 
 ## Install request
+
 > The simplified HTTP request client 'request' with Promise support. Powered by Bluebird.
 
 ```sh
@@ -148,25 +159,25 @@ New Node: `Node 3`
 
 All existing nodes need to aware new pending transaction and new mine block
 
-![Transaction broadcast](./assets/images/section5_transaction_broadcast.jpg "Transaction broadcast")
+![Transaction broadcast](./assets/images/section5_transaction_broadcast.jpg 'Transaction broadcast')
 
- - Aware new pending transaction
+- Aware new pending transaction
 
- 1. Current node add new transaction into pending transaction array
- 2. Then current node will broadcast new transaction to all existing nodes in network
- 3. All existing nodes will call `/transaction` POST to add new transation into pending transaction array
- 4. All nodes have same new pending transaction datas.
+1.  Current node add new transaction into pending transaction array
+2.  Then current node will broadcast new transaction to all existing nodes in network
+3.  All existing nodes will call `/transaction` POST to add new transation into pending transaction array
+4.  All nodes have same new pending transaction datas.
 
- - Aware new block is mined
+- Aware new block is mined
 
- 1. Node will create new block if it finds correct hash (proof of Work)
- 2. Then node will request to all network nodes for receiving new block
- 3. All existing nodes will call `/receive-new-block` to push new block into `this.chain`
- 4. Then node winner will call `/transaction/broadcast` to broadcast for all network nodes about mining reward transaction to current node Address.
- But this transaction is into pending transaction array (memory pool)
- 5. This transaction will be added `transactions` array into new another block
+1.  Node will create new block if it finds correct hash (proof of Work)
+2.  Then node will request to all network nodes for receiving new block
+3.  All existing nodes will call `/receive-new-block` to push new block into `this.chain`
+4.  Then node winner will call `/transaction/broadcast` to broadcast for all network nodes about mining reward transaction to current node Address.
+    But this transaction is into pending transaction array (memory pool)
+5.  This transaction will be added `transactions` array into new another block
 
- # Section 6: Consensus
+# Section 6: Consensus
 
 `Consensus` is a way for all of the nodes inside of our network to agree upon what the correct data inside of the blockchain is.
 
@@ -188,7 +199,7 @@ It will simply compare the chain on the chosen node with all the other chains in
 
 The longest chain `has the most blocks` in it and `each of those blocks was mined by using a proof of work`.
 
-![Consensus!](./assets/images/section6_consensus.jpg "Consensus")
+![Consensus!](./assets/images/section6_consensus.jpg 'Consensus')
 
 > Check chain is valid
 
@@ -204,7 +215,7 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 4. Attemp change data of `hash`, `address of recipient`, `genesic block`
 5. Run test again `node dev/test.js`
 
-![Consensus!](./assets/images/section6_consensus_2.jpg "Consensus")
+![Consensus!](./assets/images/section6_consensus_2.jpg 'Consensus')
 
 > Check consensus
 
@@ -215,6 +226,18 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 5. Run `/consensus` to update blockchain in Node 5
 6. Run `/consensus` again, this chain of Node 5 has not been replaced
 
-![Consensus!](./assets/images/section6_consensus_3.jpg "Consensus")
+![Consensus!](./assets/images/section6_consensus_3.jpg 'Consensus')
 
+# Section 7: Block explorer
 
+> Get Block by hash
+
+![Block explorer!](./assets/images/section7_block_explorer.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_2.png 'Block explorer')
+
+> Get Transaction by Id
+
+![Block explorer!](./assets/images/section7_block_explorer_3.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_4.png 'Block explorer')
