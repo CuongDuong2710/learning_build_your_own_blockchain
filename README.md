@@ -230,6 +230,10 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 
 # Section 7: Block explorer
 
+1. Write `getBlock()` receives `blockHash` param to return correct block
+2. Write `getTransaction()` receives `transactionId` param to return correct transaction and correct block
+3. Write `getAddressData()` receives `address` param to return transactions and balace of this address
+
 > Get Block by hash
 
 ![Block explorer!](./assets/images/section7_block_explorer.png 'Block explorer')
@@ -241,3 +245,9 @@ The longest chain `has the most blocks` in it and `each of those blocks was mine
 ![Block explorer!](./assets/images/section7_block_explorer_3.png 'Block explorer')
 
 ![Block explorer!](./assets/images/section7_block_explorer_4.png 'Block explorer')
+
+> Get address data by address
+
+![Block explorer!](./assets/images/section7_block_explorer_5.png 'Block explorer')
+
+![Block explorer!](./assets/images/section7_block_explorer_6.png 'Block explorer')
